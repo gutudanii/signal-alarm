@@ -1,13 +1,15 @@
 package com.alarm.signal.user.services.impl;
 
 import com.alarm.signal.common.exception.ServiceException;
-import com.alarm.signal.user.dto.request.PasswordResetRequest;
+import com.alarm.signal.common.email.EmailService;
 import com.alarm.signal.user.dto.request.PasswordResetConfirmRequest;
+import com.alarm.signal.user.dto.request.PasswordResetRequest;
 import com.alarm.signal.user.model.PasswordResetToken;
 import com.alarm.signal.user.model.User;
 import com.alarm.signal.user.repository.PasswordResetTokenRepository;
 import com.alarm.signal.user.repository.UserRepository;
 import com.alarm.signal.user.services.PasswordResetService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     private final UserRepository userRepository;
     private final PasswordResetTokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -43,6 +46,21 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         tokenRepository.save(resetToken);
         // Return the reset link
         String resetLink = baseUrl + "/api/auth/reset-password?token=" + token;
+        // Send email
+        try {
+            java.util.Map<String, Object> variables = new java.util.HashMap<>();
+            variables.put("name", user.getFirstName() + " " + user.getLastName());
+            variables.put("resetLink", resetLink);
+            emailService.sendHtmlMessage(
+                user.getEmail(),
+                "Password Reset Request",
+                "password-reset",
+                variables,
+                null, null, null
+            );
+        } catch (MessagingException e) {
+            throw new ServiceException("Failed to send password reset email: " + e.getMessage());
+        }
         return resetLink;
     }
 

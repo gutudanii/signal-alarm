@@ -113,6 +113,18 @@
 							<version>0.11.5</version>
 							<scope>runtime</scope>
 						</dependency>
+        <!-- Thymeleaf core dependency for template engine -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+        <!-- Thymeleaf Spring integration for Spring 6+ -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring6</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
 		  </dependencies>
 
 	<build>
