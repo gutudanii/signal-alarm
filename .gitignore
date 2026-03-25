@@ -32,5 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-## ENV
+## ENV to be removed and ignored for security reasons, as it may contain sensitive information such as database credentials, API keys, etc.
 .env
