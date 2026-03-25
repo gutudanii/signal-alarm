@@ -1,5 +1,6 @@
 package com.alarm.signal.user.services.impl;
 
+import com.alarm.signal.common.exception.ServiceException;
 import com.alarm.signal.user.dto.request.RegisterDeviceRequest;
 import com.alarm.signal.user.dto.response.UserDeviceResponse;
 import com.alarm.signal.user.services.UserDeviceService;
@@ -23,11 +24,11 @@ public class UserDeviceServiceImpl implements UserDeviceService {
     @Override
     public UserDeviceResponse registerDevice(RegisterDeviceRequest request) {
         if (request == null || request.getUserId() == null || request.getFcmToken() == null || request.getFcmToken().isBlank() || request.getPlatform() == null) {
-            throw new IllegalArgumentException("Invalid device registration request");
+            throw new ServiceException("Invalid device registration request");
         }
         // Ensure user exists
         if (!userRepository.existsById(request.getUserId())) {
-            throw new IllegalArgumentException("User does not exist");
+            throw new ServiceException("User does not exist");
         }
         // Prevent duplicates (idempotent): update if exists, else create
         Optional<UserDevice> existing = userDeviceRepository.findByFcmToken(request.getFcmToken());

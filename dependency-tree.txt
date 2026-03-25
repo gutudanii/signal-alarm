@@ -1,0 +1,162 @@
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/amqp/spring-amqp-bom/3.2.9/spring-amqp-bom-3.2.9.pom
+Progress (1): 963 BProgress (1): 2.8 kBProgress (1): 3.9 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/amqp/spring-amqp-bom/3.2.9/spring-amqp-bom-3.2.9.pom (3.9 kB at 5.9 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/batch/spring-batch-bom/5.2.5/spring-batch-bom-5.2.5.pom
+Progress (1): 1.2 kBProgress (1): 3.2 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/batch/spring-batch-bom/5.2.5/spring-batch-bom-5.2.5.pom (3.2 kB at 19 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-bom/2025.0.10/spring-data-bom-2025.0.10.pom
+Progress (1): 962 BProgress (1): 1.9 kBProgress (1): 5.5 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/data/spring-data-bom/2025.0.10/spring-data-bom-2025.0.10.pom (5.5 kB at 32 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/spring-framework-bom/6.2.17/spring-framework-bom-6.2.17.pom
+Progress (1): 975 BProgress (1): 4.9 kBProgress (1): 5.8 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/spring-framework-bom/6.2.17/spring-framework-bom-6.2.17.pom (5.8 kB at 32 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/integration/spring-integration-bom/6.5.8/spring-integration-bom-6.5.8.pom
+Progress (1): 962 BProgress (1): 2.5 kBProgress (1): 10 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/integration/spring-integration-bom/6.5.8/spring-integration-bom-6.5.8.pom (10 kB at 48 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/pulsar/spring-pulsar-bom/1.2.16/spring-pulsar-bom-1.2.16.pom
+Progress (1): 957 BProgress (1): 2.9 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/pulsar/spring-pulsar-bom/1.2.16/spring-pulsar-bom-1.2.16.pom (2.9 kB at 17 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/restdocs/spring-restdocs-bom/3.0.5/spring-restdocs-bom-3.0.5.pom
+Progress (1): 1.1 kBProgress (1): 2.6 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/restdocs/spring-restdocs-bom/3.0.5/spring-restdocs-bom-3.0.5.pom (2.6 kB at 14 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-bom/6.5.9/spring-security-bom-6.5.9.pom
+Progress (1): 972 BProgress (1): 5.0 kBProgress (1): 5.3 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/security/spring-security-bom/6.5.9/spring-security-bom-6.5.9.pom (5.3 kB at 32 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/session/spring-session-bom/3.5.5/spring-session-bom-3.5.5.pom
+Progress (1): 1.0 kBProgress (1): 2.9 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/session/spring-session-bom/3.5.5/spring-session-bom-3.5.5.pom (2.9 kB at 17 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/ws/spring-ws-bom/4.1.3/spring-ws-bom-4.1.3.pom
+Progress (1): 1.2 kBProgress (1): 2.3 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/ws/spring-ws-bom/4.1.3/spring-ws-bom-4.1.3.pom (2.3 kB at 12 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml
+Progress (1): 249 B                   Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/maven-metadata.xml (249 B at 1.4 kB/s)
+[INFO] 
+[INFO] --------------------------< com.alarm:signal >--------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.8.1:tree (default-cli) @ signal ---
+[INFO] com.alarm:signal:jar:0.0.1-SNAPSHOT
+[INFO] +- org.springframework.boot:spring-boot-starter-data-jpa:jar:3.5.12:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter:jar:3.5.12:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot:jar:3.5.12:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-autoconfigure:jar:3.5.12:compile
+[INFO] |  |  +- org.springframework.boot:spring-boot-starter-logging:jar:3.5.12:compile
+[INFO] |  |  |  +- ch.qos.logback:logback-classic:jar:1.5.32:compile
+[INFO] |  |  |  |  \- ch.qos.logback:logback-core:jar:1.5.32:compile
+[INFO] |  |  |  +- org.apache.logging.log4j:log4j-to-slf4j:jar:2.24.3:compile
+[INFO] |  |  |  |  \- org.apache.logging.log4j:log4j-api:jar:2.24.3:compile
+[INFO] |  |  |  \- org.slf4j:jul-to-slf4j:jar:2.0.17:compile
+[INFO] |  |  +- jakarta.annotation:jakarta.annotation-api:jar:2.1.1:compile
+[INFO] |  |  \- org.yaml:snakeyaml:jar:2.4:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-jdbc:jar:3.5.12:compile
+[INFO] |  |  +- com.zaxxer:HikariCP:jar:6.3.3:compile
+[INFO] |  |  \- org.springframework:spring-jdbc:jar:6.2.17:compile
+[INFO] |  +- org.hibernate.orm:hibernate-core:jar:6.6.44.Final:compile
+[INFO] |  |  +- jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile
+[INFO] |  |  +- jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile
+[INFO] |  |  +- org.jboss.logging:jboss-logging:jar:3.6.3.Final:compile
+[INFO] |  |  +- org.hibernate.common:hibernate-commons-annotations:jar:7.0.3.Final:runtime
+[INFO] |  |  +- io.smallrye:jandex:jar:3.2.0:runtime
+[INFO] |  |  +- com.fasterxml:classmate:jar:1.7.3:compile
+[INFO] |  |  +- net.bytebuddy:byte-buddy:jar:1.17.8:runtime
+[INFO] |  |  +- org.glassfish.jaxb:jaxb-runtime:jar:4.0.6:runtime
+[INFO] |  |  |  \- org.glassfish.jaxb:jaxb-core:jar:4.0.6:runtime
+[INFO] |  |  |     +- org.glassfish.jaxb:txw2:jar:4.0.6:runtime
+[INFO] |  |  |     \- com.sun.istack:istack-commons-runtime:jar:4.1.2:runtime
+[INFO] |  |  +- jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime
+[INFO] |  |  \- org.antlr:antlr4-runtime:jar:4.13.0:compile
+[INFO] |  +- org.springframework.data:spring-data-jpa:jar:3.5.10:compile
+[INFO] |  |  +- org.springframework.data:spring-data-commons:jar:3.5.10:compile
+[INFO] |  |  +- org.springframework:spring-orm:jar:6.2.17:compile
+[INFO] |  |  +- org.springframework:spring-context:jar:6.2.17:compile
+[INFO] |  |  +- org.springframework:spring-tx:jar:6.2.17:compile
+[INFO] |  |  +- org.springframework:spring-beans:jar:6.2.17:compile
+[INFO] |  |  \- org.slf4j:slf4j-api:jar:2.0.17:compile
+[INFO] |  \- org.springframework:spring-aspects:jar:6.2.17:compile
+[INFO] |     \- org.aspectj:aspectjweaver:jar:1.9.25.1:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-mail:jar:3.5.12:compile
+[INFO] |  +- org.springframework:spring-context-support:jar:6.2.17:compile
+[INFO] |  \- org.eclipse.angus:jakarta.mail:jar:2.0.5:compile
+[INFO] |     +- jakarta.activation:jakarta.activation-api:jar:2.1.4:compile
+[INFO] |     \- org.eclipse.angus:angus-activation:jar:2.0.3:runtime
+[INFO] +- org.springframework.boot:spring-boot-starter-oauth2-client:jar:3.5.12:compile
+[INFO] |  +- org.springframework.security:spring-security-config:jar:6.5.9:compile
+[INFO] |  +- org.springframework.security:spring-security-core:jar:6.5.9:compile
+[INFO] |  |  +- org.springframework.security:spring-security-crypto:jar:6.5.9:compile
+[INFO] |  |  +- org.springframework:spring-expression:jar:6.2.17:compile
+[INFO] |  |  \- io.micrometer:micrometer-observation:jar:1.15.10:compile
+[INFO] |  |     \- io.micrometer:micrometer-commons:jar:1.15.10:compile
+[INFO] |  +- org.springframework.security:spring-security-oauth2-client:jar:6.5.9:compile
+[INFO] |  |  +- org.springframework.security:spring-security-oauth2-core:jar:6.5.9:compile
+[INFO] |  |  \- com.nimbusds:oauth2-oidc-sdk:jar:9.43.6:compile
+[INFO] |  |     +- com.github.stephenc.jcip:jcip-annotations:jar:1.0-1:compile
+[INFO] |  |     +- com.nimbusds:content-type:jar:2.2:compile
+[INFO] |  |     \- com.nimbusds:lang-tag:jar:1.7:compile
+[INFO] |  \- org.springframework.security:spring-security-oauth2-jose:jar:6.5.9:compile
+[INFO] |     \- com.nimbusds:nimbus-jose-jwt:jar:9.37.4:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-security:jar:3.5.12:compile
+[INFO] |  +- org.springframework:spring-aop:jar:6.2.17:compile
+[INFO] |  \- org.springframework.security:spring-security-web:jar:6.5.9:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-validation:jar:3.5.12:compile
+[INFO] |  +- org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.52:compile
+[INFO] |  \- org.hibernate.validator:hibernate-validator:jar:8.0.3.Final:compile
+[INFO] |     \- jakarta.validation:jakarta.validation-api:jar:3.0.2:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-web:jar:3.5.12:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-json:jar:3.5.12:compile
+[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.19.4:compile
+[INFO] |  |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.19.4:compile
+[INFO] |  |  \- com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.19.4:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-tomcat:jar:3.5.12:compile
+[INFO] |  |  +- org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.52:compile
+[INFO] |  |  \- org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.52:compile
+[INFO] |  +- org.springframework:spring-web:jar:6.2.17:compile
+[INFO] |  \- org.springframework:spring-webmvc:jar:6.2.17:compile
+[INFO] +- org.postgresql:postgresql:jar:42.7.10:runtime
+[INFO] |  \- org.checkerframework:checker-qual:jar:3.52.0:runtime
+[INFO] +- org.projectlombok:lombok:jar:1.18.44:compile (optional)
+[INFO] +- org.springframework.boot:spring-boot-starter-test:jar:3.5.12:test
+[INFO] |  +- org.springframework.boot:spring-boot-test:jar:3.5.12:test
+[INFO] |  +- org.springframework.boot:spring-boot-test-autoconfigure:jar:3.5.12:test
+[INFO] |  +- com.jayway.jsonpath:json-path:jar:2.9.0:test
+[INFO] |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.4:compile
+[INFO] |  +- net.minidev:json-smart:jar:2.5.2:compile
+[INFO] |  |  \- net.minidev:accessors-smart:jar:2.5.2:compile
+[INFO] |  |     \- org.ow2.asm:asm:jar:9.7.1:compile
+[INFO] |  +- org.assertj:assertj-core:jar:3.27.7:test
+[INFO] |  +- org.awaitility:awaitility:jar:4.2.2:test
+[INFO] |  +- org.hamcrest:hamcrest:jar:3.0:test
+[INFO] |  +- org.junit.jupiter:junit-jupiter:jar:5.12.2:test
+[INFO] |  |  +- org.junit.jupiter:junit-jupiter-api:jar:5.12.2:test
+[INFO] |  |  |  +- org.opentest4j:opentest4j:jar:1.3.0:test
+[INFO] |  |  |  +- org.junit.platform:junit-platform-commons:jar:1.12.2:test
+[INFO] |  |  |  \- org.apiguardian:apiguardian-api:jar:1.1.2:test
+[INFO] |  |  +- org.junit.jupiter:junit-jupiter-params:jar:5.12.2:test
+[INFO] |  |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.12.2:test
+[INFO] |  |     \- org.junit.platform:junit-platform-engine:jar:1.12.2:test
+[INFO] |  +- org.mockito:mockito-core:jar:5.17.0:test
+[INFO] |  |  +- net.bytebuddy:byte-buddy-agent:jar:1.17.8:test
+[INFO] |  |  \- org.objenesis:objenesis:jar:3.3:test
+[INFO] |  +- org.mockito:mockito-junit-jupiter:jar:5.17.0:test
+[INFO] |  +- org.skyscreamer:jsonassert:jar:1.5.3:test
+[INFO] |  |  \- com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[INFO] |  +- org.springframework:spring-core:jar:6.2.17:compile
+[INFO] |  |  \- org.springframework:spring-jcl:jar:6.2.17:compile
+[INFO] |  +- org.springframework:spring-test:jar:6.2.17:test
+[INFO] |  \- org.xmlunit:xmlunit-core:jar:2.10.4:test
+[INFO] +- org.springframework.security:spring-security-test:jar:6.5.9:test
+[INFO] +- org.mapstruct:mapstruct:jar:1.5.5.Final:compile
+[INFO] +- org.mapstruct:mapstruct-processor:jar:1.5.5.Final:provided
+[INFO] +- org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.5.0:compile
+[INFO] |  +- org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.5.0:compile
+[INFO] |  |  \- org.springdoc:springdoc-openapi-starter-common:jar:2.5.0:compile
+[INFO] |  |     \- io.swagger.core.v3:swagger-core-jakarta:jar:2.2.21:compile
+[INFO] |  |        +- org.apache.commons:commons-lang3:jar:3.17.0:compile
+[INFO] |  |        +- io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.21:compile
+[INFO] |  |        +- io.swagger.core.v3:swagger-models-jakarta:jar:2.2.21:compile
+[INFO] |  |        \- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.19.4:compile
+[INFO] |  \- org.webjars:swagger-ui:jar:5.13.0:compile
+[INFO] +- io.jsonwebtoken:jjwt-api:jar:0.11.5:compile
+[INFO] +- io.jsonwebtoken:jjwt-impl:jar:0.11.5:runtime
+[INFO] \- io.jsonwebtoken:jjwt-jackson:jar:0.11.5:runtime
+[INFO]    \- com.fasterxml.jackson.core:jackson-databind:jar:2.19.4:compile
+[INFO]       +- com.fasterxml.jackson.core:jackson-annotations:jar:2.19.4:compile
+[INFO]       \- com.fasterxml.jackson.core:jackson-core:jar:2.19.4:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.507 s
+[INFO] Finished at: 2026-03-25T16:53:20+03:00
+[INFO] ------------------------------------------------------------------------

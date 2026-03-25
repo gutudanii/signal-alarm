@@ -26,5 +26,12 @@ public class Producer {
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+    }
 }
 

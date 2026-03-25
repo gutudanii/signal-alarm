@@ -1,5 +1,6 @@
 package com.alarm.signal.user.services.impl;
 
+import com.alarm.signal.common.exception.ServiceException;
 import com.alarm.signal.user.dto.request.CreateProducerRequest;
 import com.alarm.signal.user.dto.response.ProducerResponse;
 import com.alarm.signal.user.services.ProducerService;
@@ -28,14 +29,14 @@ public class ProducerServiceImpl implements ProducerService {
                 request.getUserId() == null ||
                 request.getName() == null ||
                 request.getName().isBlank()) {
-            throw new IllegalArgumentException("Invalid producer creation request");
+            throw new ServiceException("Invalid producer creation request");
         }
         // 2. Ensure user exists
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User does not exist"));
+                .orElseThrow(() -> new ServiceException("User does not exist"));
         // 3. Ensure producer does not already exist for this user (idempotent)
         if (producerRepository.existsByUserId(request.getUserId())) {
-            throw new IllegalStateException("Producer already exists for this user");
+            throw new ServiceException("Producer already exists for this user");
         }
         // 4. Map request to entity
         Producer producer = producerMapper.toEntity(request);
@@ -44,7 +45,7 @@ public class ProducerServiceImpl implements ProducerService {
         try {
             producer = producerRepository.save(producer);
         } catch (Exception e) {
-            throw new IllegalStateException("Producer already exists (race condition)");
+            throw new ServiceException("Producer already exists (race condition)");
         }
         // 6. Return ProducerResponse
         return producerMapper.toResponse(producer);

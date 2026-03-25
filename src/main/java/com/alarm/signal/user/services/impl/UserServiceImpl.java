@@ -1,11 +1,15 @@
 package com.alarm.signal.user.services.impl;
 
+import com.alarm.signal.common.exception.ServiceException;
+import com.alarm.signal.user.dto.request.CreateProducerRequest;
 import com.alarm.signal.user.dto.request.CreateUserRequest;
 import com.alarm.signal.user.dto.request.UpdateRoleRequest;
 import com.alarm.signal.user.dto.request.MakeProducerRequest;
 import com.alarm.signal.user.dto.response.UserResponse;
 import com.alarm.signal.user.dto.response.ExistsByEmailResponse;
 import com.alarm.signal.user.model.enums.Role;
+import com.alarm.signal.user.repository.ProducerRepository;
+import com.alarm.signal.user.services.ProducerService;
 import com.alarm.signal.user.services.UserService;
 import com.alarm.signal.user.repository.UserRepository;
 import com.alarm.signal.user.mapper.UserMapper;
@@ -24,13 +28,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ProducerRepository producerRepository;
+    private final ProducerService producerService;
 
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         // 1. Validate email format
         String email = request.getEmail() == null ? null : request.getEmail().trim().toLowerCase();
         if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new ServiceException("Invalid email format");
         }
         // 2. Normalize email
         // Already done above
@@ -38,13 +44,13 @@ public class UserServiceImpl implements UserService {
         if (request.getProvider() == null || request.getProvider().name().equals("LOCAL")) {
             String password = request.getPassword();
             if (password == null || password.length() < 8) {
-                throw new IllegalArgumentException("Password must be at least 8 characters");
+                throw new ServiceException("Password must be at least 8 characters");
             }
             // Add more password strength checks as needed
         }
         // 4. Check existsByEmail (case-insensitive)
         if (userRepository.existsByEmailIgnoreCase(email)) {
-            throw new IllegalStateException("User already exists with this email");
+            throw new ServiceException("User already exists with this email");
         }
         // 5. Hash password (never store plain text)
         User user = userMapper.toEntity(request);
@@ -63,8 +69,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userRepository.save(user);
         } catch (Exception e) {
-            // Could be DataIntegrityViolationException
-            throw new IllegalStateException("User already exists (race condition)");
+            throw new ServiceException("User already exists (race condition)");
         }
         // 7. Return UserResponse (never expose password)
         return userMapper.toResponse(user);
@@ -102,13 +107,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateRole(UpdateRoleRequest request) {
         if (request == null || request.getUserId() == null || request.getNewRole() == null) {
-            throw new IllegalArgumentException("Invalid request");
+            throw new ServiceException("Invalid request");
         }
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ServiceException("User not found"));
+
         // Prevent invalid transitions (add your own logic)
         user.setRole(request.getNewRole());
         user = userRepository.save(user);
+
+        if (request.getNewRole() == Role.PRODUCER) {
+            makeProducer(MakeProducerRequest.builder()
+                    .userId(user.getId())
+                    .build());
+        }
+        else if (request.getNewRole() == Role.USER) {
+            // Optionally handle demotion from producer (not implemented here)
+            producerRepository.deleteById(user.getId());
+        }
+
         return userMapper.toResponse(user);
     }
 
@@ -117,12 +134,19 @@ public class UserServiceImpl implements UserService {
         // This would require ProducerRepository, not implemented here
         // 1. Ensure user exists
         if (request == null || request.getUserId() == null) {
-            throw new IllegalArgumentException("Invalid request");
+            throw new ServiceException("Invalid request");
         }
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ServiceException("User not found"));
         // 2. Ensure user is not already a producer (should check ProducerRepository)
+        if (producerRepository.existsByUserId(user.getId())) {
+            throw new ServiceException("Producer already exists");
+        }
         // 3. Idempotent: safe to call multiple times
+        producerService.createProducer(CreateProducerRequest.builder()
+                .userId(user.getId())
+                .name(request.getProducerName())
+                .build());
         // 4. Assign role = PRODUCER
         user.setRole(Role.PRODUCER);
         userRepository.save(user);
