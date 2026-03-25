@@ -15,6 +15,17 @@ public interface ProducerMapper {
     @Mapping(target = "createdAt", ignore = true)
     Producer toEntity(CreateProducerRequest dto);
 
-    ProducerResponse toResponse(Producer entity);
-}
+    default String safe(String value) {
+        return value == null ? "" : value;
+    }
 
+    default ProducerResponse toResponse(Producer entity) {
+        if (entity == null) return null;
+        return ProducerResponse.builder()
+                .id(entity.getId())
+                .userId(entity.getUserId())
+                .name(safe(entity.getName()))
+                .createdAt(entity.getCreatedAt())
+                .build();
+    }
+}

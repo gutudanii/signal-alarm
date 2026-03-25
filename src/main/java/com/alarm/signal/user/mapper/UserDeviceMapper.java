@@ -5,16 +5,26 @@ import com.alarm.signal.user.dto.response.UserDeviceResponse;
 import com.alarm.signal.user.model.UserDevice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface UserDeviceMapper {
-    UserDeviceMapper INSTANCE = Mappers.getMapper(UserDeviceMapper.class);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     UserDevice toEntity(RegisterDeviceRequest dto);
 
-    UserDeviceResponse toResponse(UserDevice entity);
-}
+    default String safe(String value) {
+        return value == null ? "" : value;
+    }
 
+    default UserDeviceResponse toResponse(UserDevice entity) {
+        if (entity == null) return null;
+        return UserDeviceResponse.builder()
+                .id(entity.getId())
+                .userId(entity.getUserId())
+                .fcmToken(safe(entity.getFcmToken()))
+                .platform(entity.getPlatform())
+                .createdAt(entity.getCreatedAt())
+                .build();
+    }
+}

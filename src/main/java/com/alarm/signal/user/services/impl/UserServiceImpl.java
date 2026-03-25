@@ -13,6 +13,8 @@ import com.alarm.signal.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,8 +52,13 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         } else {
             user.setPassword(null);
+            user.setEmailVerified(true); // Google users are always verified
         }
         user.setEmail(email);
+        // Ensure createdAt is set
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(Instant.now());
+        }
         // 6. Handle race condition (catch DB unique constraint violation)
         try {
             user = userRepository.save(user);

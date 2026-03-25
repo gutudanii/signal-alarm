@@ -56,14 +56,14 @@ Signal Platform provides:
 
 ## API Overview
 
-| Endpoint                  | Method | Description                       |
-|--------------------------|--------|-----------------------------------|
-| /auth/register           | POST   | Register a new user               |
-| /auth/login              | POST   | User login                        |
-| /auth/oauth2/create      | GET    | Google OAuth2 user creation       |
-| /devices                 | POST   | Register a device                 |
-| /users/{id}              | GET    | Get user by ID                    |
-| /producer                | POST   | Create a producer                 |
+| Method | Endpoint              | Description                       |
+|--------|----------------------|-----------------------------------|
+| POST   | /auth/register       | Register new user                 |
+| POST   | /auth/login          | Login with email/password         |
+| GET    | /oauth2/authorization/google | Google OAuth2 login         |
+| POST   | /devices             | Register device for notifications |
+| GET    | /users/{id}          | Get user by ID                    |
+| POST   | /producer            | Create new producer               |
 
 ---
 
@@ -81,7 +81,7 @@ Signal Platform provides:
 - Java 17+
 - PostgreSQL
 - Firebase configuration
-- Environment variables (JWT secret, DB URL, etc.)
+- Environment variables (JWT secret, DB URL, Google client secret, etc.)
 
 ---
 
@@ -114,7 +114,14 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-> **What is this system?** Modular backend for signals & notifications.
-> **What can it do?** Auth, user/device/producer management, notifications.
-> **How is it structured?** Modular services, secure, scalable.
-> **How do I run it?** See Quick Start and Environment Setup above.
+> **What is this system?**
+> Modular backend for authentication, device, and producer management.
+>
+> **What can it do?**
+> Register/login users (Google or email), manage devices, send notifications, manage producers.
+>
+> **How is it structured?**
+> Microservice-style modules for user, device, producer, and authentication.
+>
+> **How do I run it?**
+> Configure environment variables, set up PostgreSQL, and run with Java 17+.

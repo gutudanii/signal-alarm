@@ -18,4 +18,5 @@ public class CreateUserRequest {
     private String password; // nullable for Google
     private AuthProvider provider;
     private Role role;
+    private boolean isEmailVerified;
 }

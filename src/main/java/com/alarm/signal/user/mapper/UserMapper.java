@@ -9,13 +9,27 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "password", ignore = true) // password set separately after hashing
+    @Mapping(target = "emailVerified", source = "emailVerified")
     User toEntity(CreateUserRequest dto);
 
-    UserResponse toResponse(User user);
-}
+    default String safe(String value) {
+        return value == null ? "" : value;
+    }
 
+    default UserResponse toResponse(User user) {
+        if (user == null) return null;
+        return UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(safe(user.getFirstName()))
+                .lastName(safe(user.getLastName()))
+                .provider(user.getProvider())
+                .role(user.getRole())
+                .createdAt(user.getCreatedAt())
+                .build();
+    }
+}
