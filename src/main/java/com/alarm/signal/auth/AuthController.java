@@ -32,20 +32,26 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
         String email = request.getEmail();
         String password = request.getPassword();
+
         if (email == null || password == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "Email and password required"));
         }
         User user = userRepository.findByEmailIgnoreCase(email.trim().toLowerCase())
                 .orElse(null);
         assert user != null;
+
         if (user.getProvider().name().equalsIgnoreCase("GOOGLE")) {
             String googleAuthUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + "/oauth2/authorization/google";
             return ResponseEntity.status(400).body(Map.of("error", "Use Google login: " + googleAuthUrl));
         }
+
         else if (user.getPassword() == null || !passwordEncoder.matches(password, user.getPassword())) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
-        String token = jwtService.generateToken(user.getEmail(), user.getRole() != null ? user.getRole().name() : "USER");
+        String roles = (user.getRoles() != null && !user.getRoles().isEmpty())
+                ? String.join(",", user.getRoles().stream().map(Enum::name).toList())
+                : "USER";
+        String token = jwtService.generateToken(user.getEmail(), roles);
         return ResponseEntity.ok(Map.of("token", token));
     }
 

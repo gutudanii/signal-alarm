@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import com.alarm.signal.security.JwtAuthenticationFilter;
 import com.alarm.signal.security.JwtAuthenticationEntryPoint;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @RequiredArgsConstructor
@@ -17,6 +17,7 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,7 +26,12 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/oauth2/**", "/api/auth/login", "/error", "/swagger-ui/**", "/v3/api-docs/**", "/login", "/.well-known/**").permitAll()
+                .requestMatchers("/oauth2/**", "/api/auth/login", "/users",
+                        "api/auth/reset-password", "/api/auth/request-password-reset",
+                        "/error", "/swagger-ui/**", "/v3/api-docs/**", "/login", "/.well-known/**").permitAll()
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/producer/create").hasRole("USER")
+                .requestMatchers("/api/v1/producer/**").hasRole("PRODUCER")
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

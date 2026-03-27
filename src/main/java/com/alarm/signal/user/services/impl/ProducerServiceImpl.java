@@ -11,6 +11,7 @@ import com.alarm.signal.user.model.Producer;
 import com.alarm.signal.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -81,5 +82,32 @@ public class ProducerServiceImpl implements ProducerService {
         }
         // 2. Fast lookup (indexed column recommended)
         return producerRepository.existsByUserId(userId);
+    }
+
+    @Transactional
+    @Override
+    public ProducerResponse createProducerForAuthenticatedUser(User user) {
+        if (user == null) {
+            throw new ServiceException("Authenticated user not found");
+        }
+        if (user.getRoles() == null) {
+            user.setRoles(new java.util.HashSet<>());
+        }
+        if (user.getRoles().contains(com.alarm.signal.user.model.enums.Role.PRODUCER)) {
+            throw new ServiceException("User already has PRODUCER role");
+        }
+        if (producerRepository.existsByUserId(user.getId())) {
+            throw new ServiceException("Producer already exists for this user");
+        }
+        // Add PRODUCER role
+        user.getRoles().add(com.alarm.signal.user.model.enums.Role.PRODUCER);
+        userRepository.save(user);
+        // Create producer record
+        Producer producer = Producer.builder()
+                .userId(user.getId())
+                .name(user.getFirstName() + " " + user.getLastName())
+                .build();
+        producer = producerRepository.save(producer);
+        return producerMapper.toResponse(producer);
     }
 }

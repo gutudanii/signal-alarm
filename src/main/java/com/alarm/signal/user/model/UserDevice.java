@@ -8,7 +8,14 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_devices")
+@Table(name = "user_devices",
+    indexes = {
+        @Index(name = "idx_user_devices_user", columnList = "userId")
+    },
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"fcmToken"})
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +29,7 @@ public class UserDevice {
     @Column(nullable = false)
     private UUID userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String fcmToken;
 
     @Enumerated(EnumType.STRING)

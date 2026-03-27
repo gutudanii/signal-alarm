@@ -7,7 +7,14 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "producers")
+@Table(name = "producers",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id"})
+    },
+    indexes = {
+        @Index(name = "idx_producer_user", columnList = "user_id")
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +25,7 @@ public class Producer {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private UUID userId;
 
     @Column(nullable = false)
@@ -34,4 +41,3 @@ public class Producer {
         }
     }
 }
-

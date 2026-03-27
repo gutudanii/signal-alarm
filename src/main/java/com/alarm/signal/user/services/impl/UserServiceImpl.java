@@ -17,8 +17,11 @@ import com.alarm.signal.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,12 +58,14 @@ public class UserServiceImpl implements UserService {
         // 5. Hash password (never store plain text)
         User user = userMapper.toEntity(request);
         if (request.getProvider() == null || request.getProvider().name().equals("LOCAL")) {
+            user.setEmailVerified(true);
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         } else {
             user.setPassword(null);
             user.setEmailVerified(true); // Google users are always verified
         }
         user.setEmail(email);
+        user.setRoles(Collections.singleton(Role.USER));
         // Ensure createdAt is set
         if (user.getCreatedAt() == null) {
             user.setCreatedAt(Instant.now());
@@ -105,50 +110,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse updateRole(UpdateRoleRequest request) {
         if (request == null || request.getUserId() == null || request.getNewRole() == null) {
             throw new ServiceException("Invalid request");
         }
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found"));
-
-        // Prevent invalid transitions (add your own logic)
-        user.setRole(request.getNewRole());
+        if (user.getRoles() == null) user.setRoles(new HashSet<>());
+        // Add role if not present
+        user.getRoles().add(request.getNewRole());
         user = userRepository.save(user);
-
         if (request.getNewRole() == Role.PRODUCER) {
             makeProducer(MakeProducerRequest.builder()
                     .userId(user.getId())
+                    .producerName(user.getFirstName() + " " + user.getLastName())
                     .build());
         }
-        else if (request.getNewRole() == Role.USER) {
-            // Optionally handle demotion from producer (not implemented here)
-            producerRepository.deleteById(user.getId());
-        }
-
         return userMapper.toResponse(user);
     }
 
     @Override
+    @Transactional
     public void makeProducer(MakeProducerRequest request) {
-        // This would require ProducerRepository, not implemented here
-        // 1. Ensure user exists
         if (request == null || request.getUserId() == null) {
             throw new ServiceException("Invalid request");
         }
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found"));
-        // 2. Ensure user is not already a producer (should check ProducerRepository)
+        if (user.getRoles() == null) user.setRoles(new HashSet<>());
+        if (user.getRoles().contains(Role.PRODUCER)) {
+            throw new ServiceException("User already has PRODUCER role");
+        }
         if (producerRepository.existsByUserId(user.getId())) {
             throw new ServiceException("Producer already exists");
         }
-        // 3. Idempotent: safe to call multiple times
+        // Add PRODUCER role
+        user.getRoles().add(Role.PRODUCER);
+        userRepository.save(user);
+        // Create producer record
         producerService.createProducer(CreateProducerRequest.builder()
                 .userId(user.getId())
                 .name(request.getProducerName())
                 .build());
-        // 4. Assign role = PRODUCER
-        user.setRole(Role.PRODUCER);
-        userRepository.save(user);
     }
 }

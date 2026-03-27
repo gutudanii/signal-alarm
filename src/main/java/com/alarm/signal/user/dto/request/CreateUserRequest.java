@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +19,6 @@ public class CreateUserRequest {
     private String lastName;
     private String password; // nullable for Google
     private AuthProvider provider;
-    private Role role;
-    private boolean isEmailVerified;
+//    private Set<Role> role;
+//    private boolean isEmailVerified;
 }

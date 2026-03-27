@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.Builder;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -40,9 +41,11 @@ public class User {
     @Column(nullable = false)
     private AuthProvider provider;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    @Column(name = "role")
+    private Set<Role> roles;
 
     @Column(nullable = false)
     private boolean emailVerified = false;

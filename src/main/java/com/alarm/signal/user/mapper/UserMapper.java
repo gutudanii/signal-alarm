@@ -9,11 +9,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "password", ignore = true) // password set separately after hashing
-    @Mapping(target = "emailVerified", source = "emailVerified")
     User toEntity(CreateUserRequest dto);
 
     default String safe(String value) {
@@ -28,7 +26,7 @@ public interface UserMapper {
                 .firstName(safe(user.getFirstName()))
                 .lastName(safe(user.getLastName()))
                 .provider(user.getProvider())
-                .role(user.getRole())
+                .roles(user.getRoles())
                 .createdAt(user.getCreatedAt())
                 .build();
     }

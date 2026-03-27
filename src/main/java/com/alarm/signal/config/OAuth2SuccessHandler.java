@@ -1,6 +1,7 @@
 package com.alarm.signal.config;
 
 import com.alarm.signal.user.dto.request.CreateUserRequest;
+import com.alarm.signal.user.model.User;
 import com.alarm.signal.user.model.enums.AuthProvider;
 import com.alarm.signal.user.model.enums.Role;
 import com.alarm.signal.user.services.UserService;
@@ -15,6 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -52,16 +55,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                             .firstName(firstName)
                             .lastName(lastName)
                             .provider(AuthProvider.GOOGLE)
-                            .role(Role.USER)
-                            .isEmailVerified(true)
+//                            .role(Collections.singleton(Role.USER))
+//                            .isEmailVerified(true)
                             .build()
                     );
                 }
             );
+
         // Find user and get role for JWT
-        com.alarm.signal.user.model.User dbUser = userRepository.findByEmailIgnoreCase(email).orElse(null);
-        String role = dbUser != null && dbUser.getRole() != null ? dbUser.getRole().name() : "USER";
-        String token = jwtService.generateToken(email, role);
+        User dbUser = userRepository.findByEmailIgnoreCase(email).orElse(null);
+        String roles = dbUser != null && dbUser.getRoles() != null
+                ? dbUser.getRoles().stream().map(Enum::name).collect(Collectors.joining(","))
+                : "USER";
+        String token = jwtService.generateToken(email, roles);
+
         // Optional: handle mobile deep link redirect
         String deepLink = request.getParameter("redirect");
         if (deepLink != null && deepLink.startsWith("myapp://")) {
